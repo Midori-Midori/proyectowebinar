@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style/admin.css" />
+  <title>Admin — Webinar IA</title>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Webinar<span> IA</span> <span class="nav-badge">Admin</span></div>
+    <div class="nav-info">
+      <span class="nav-user">Administrador</span>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Panel de Registros</h1>
+        <p class="page-subtitle">Gestiona los participantes registrados al webinar</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-chip">
+          <span class="stat-num" id="total-count">0</span>
+          <span class="stat-label">Registrados</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD TABLA -->
+    <div class="card table-card">
+
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <input class="search-input" type="text" id="search"
+            placeholder="Buscar por nombre, correo..."
+            oninput="filterTable()" />
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-secondary" onclick="refreshTable()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            Actualizar
+          </button>
+          <button class="btn btn-primary" onclick="exportCSV()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Exportar CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table-wrapper">
+        <table id="registros-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Apellido Paterno</th>
+              <th>Apellido Materno</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Fecha de Registro</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body"></tbody>
+        </table>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon"></div>
+          <p class="empty-title">Sin registros aún</p>
+          <p class="empty-desc">Cuando alguien se registre al webinar aparecerá aquí.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL CONFIRMAR ELIMINAR -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal-card card" onclick="event.stopPropagation()">
+      <div class="modal-icon"></div>
+      <h2 class="modal-title">Eliminar registro</h2>
+      <p class="modal-desc">
+        ¿Estás seguro de que deseas eliminar a
+        <strong id="modal-nombre"></strong>?
+        Esta acción no se puede deshacer.
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-danger"    onclick="confirmDelete()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
